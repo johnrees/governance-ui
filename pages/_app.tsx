@@ -9,6 +9,7 @@ import useHydrateStore from '../hooks/useHydrateStore'
 import useRealm from '../hooks/useRealm'
 import { getResourcePathPart } from '../tools/core/resources'
 import useRouterHistory from '@hooks/useRouterHistory'
+import { useEffect } from 'react'
 
 function App({ Component, pageProps }) {
   useHydrateStore()
@@ -28,6 +29,12 @@ function App({ Component, pageProps }) {
   const faviconUrl = `/realms/${getResourcePathPart(
     faviconSelector as string
   )}/favicon.ico?v=${Date.now()}`
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sidekick.js')
+    }
+  }, [])
 
   return (
     <>
